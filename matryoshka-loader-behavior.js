@@ -19,7 +19,7 @@ MatryoshkaLoaderBehavior = {
      */
     _relatedElements: {
       type: Array,
-      value: []
+      value: [],
     },
 
     /**
@@ -29,7 +29,7 @@ MatryoshkaLoaderBehavior = {
       type: Boolean,
       readOnly: true,
       reflectToAttribute: true, //@todo remove this
-      computed: '_isLoading(_relatedElements, hostLoading)'
+      computed: '_isLoading(_relatedElements, hostLoading)',
     },
 
     /**
@@ -39,7 +39,7 @@ MatryoshkaLoaderBehavior = {
       type: Boolean,
       readOnly: true,
       reflectToAttribute: true, //@todo remove this
-      computed: '_isLoaded(_relatedElements, hostLoading)'
+      computed: '_isLoaded(_relatedElements, hostLoading)',
     },
 
     /**
@@ -48,7 +48,7 @@ MatryoshkaLoaderBehavior = {
     hostLoading: {
       type: Boolean,
       value: false,
-      observer: '_onHostLoading'
+      observer: '_onHostLoading',
     },
 
     /**
@@ -72,14 +72,15 @@ MatryoshkaLoaderBehavior = {
    *
    * @private
    */
-  _onHostLoading: function (newHostLoading) {
+  _onHostLoading: function(newHostLoading) {
     this.async(function() {
       if (this.defer) {
         return;
       }
 
-      newHostLoading ? this.fire('matryoshka-loading', {srcElement: this})
-                     : this.fire('matryoshka-loaded', {srcElement: this});
+      newHostLoading
+        ? this.fire('matryoshka-loading', { srcElement: this })
+        : this.fire('matryoshka-loaded', { srcElement: this });
     });
   },
 
@@ -87,7 +88,7 @@ MatryoshkaLoaderBehavior = {
    * Calculate the loaded state of the element
    * @private
    */
-  _isLoaded: function (relatedElements, hostLoading) {
+  _isLoaded: function(relatedElements, hostLoading) {
     return !this._isLoading(relatedElements, hostLoading);
   },
 
@@ -95,7 +96,7 @@ MatryoshkaLoaderBehavior = {
    * Calculate the loading state of the element
    * @private
    */
-  _isLoading: function (relatedElements, hostLoading) {
+  _isLoading: function(relatedElements, hostLoading) {
     return hostLoading || this._areRelatedElementsLoading(relatedElements);
   },
 
@@ -132,7 +133,7 @@ MatryoshkaLoaderBehavior = {
   },
 
   ready: function() {
-    this._checkLoaded = this.checkLoaded.bind(this)
+    this._checkLoaded = this.checkLoaded.bind(this);
   },
 
   /**
@@ -140,11 +141,11 @@ MatryoshkaLoaderBehavior = {
    * The element passed must implement MatryoshkaLoaderBehavior as well.
    * @param {HTMLElement} elem Optional parameter with the event that triggers.
    */
-  addRelatedElement: function (elem) {
-    if (typeof elem.loaded != "boolean") {
+  addRelatedElement: function(elem) {
+    if (typeof elem.loaded != 'boolean') {
       console.warn(
-        "Element requesting to be watched for loading state should implement MatryoshkaLoaderBehavior",
-        elem
+        'Element requesting to be watched for loading state should implement MatryoshkaLoaderBehavior',
+        elem,
       );
     }
 
@@ -160,15 +161,15 @@ MatryoshkaLoaderBehavior = {
    * Remove an element from being watch for it's loading state.
    * @param elem
    */
-  removeRelatedElement: function (elem) {
-    elem.removeEventListener('matryoshka-loaded', this._checkLoaded)
+  removeRelatedElement: function(elem) {
+    elem.removeEventListener('matryoshka-loaded', this._checkLoaded);
 
     var elements = this._relatedElements ? this._relatedElements.slice(0) : [];
     this._relatedElements = elements.filter(function(relatedElem) {
       return relatedElem !== elem;
-    })
+    });
 
-    this.checkLoaded()
+    this.checkLoaded();
   },
 
   /**
@@ -178,10 +179,10 @@ MatryoshkaLoaderBehavior = {
    * @private
    */
   _areRelatedElementsLoading: function(relatedElements) {
-    var loadingElems = relatedElements.filter(function (elem) {
+    var loadingElems = relatedElements.filter(function(elem) {
       return elem.loading;
     });
 
-    return loadingElems.length > 0
-  }
-}
+    return loadingElems.length > 0;
+  },
+};

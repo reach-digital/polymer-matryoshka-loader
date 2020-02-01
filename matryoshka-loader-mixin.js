@@ -10,7 +10,7 @@ import { animationFrame } from '@polymer/polymer/lib/utils/async.js';
  * @summary Defines a loading flag for elements that automatically take into account the loading state of the child
  * elements. For a visual explanation, take a look at the demo section, that might explain something more.
  */
-const MatryoshkaLoaderMixin = (superClass) => {
+const MatryoshkaLoaderMixin = superClass => {
   /**
    * @polymer
    * @extends {superClass}
@@ -26,7 +26,7 @@ const MatryoshkaLoaderMixin = (superClass) => {
          */
         __relatedElements: {
           type: Array,
-          value: []
+          value: [],
         },
 
         /**
@@ -36,7 +36,7 @@ const MatryoshkaLoaderMixin = (superClass) => {
           type: Boolean,
           readOnly: true,
           reflectToAttribute: true,
-          computed: '_isLoading(__relatedElements, hostLoading)'
+          computed: '_isLoading(__relatedElements, hostLoading)',
         },
 
         /**
@@ -46,7 +46,7 @@ const MatryoshkaLoaderMixin = (superClass) => {
           type: Boolean,
           readOnly: true,
           reflectToAttribute: true, //@todo remove this
-          computed: '_isLoaded(__relatedElements, hostLoading)'
+          computed: '_isLoaded(__relatedElements, hostLoading)',
         },
 
         /**
@@ -55,7 +55,7 @@ const MatryoshkaLoaderMixin = (superClass) => {
         hostLoading: {
           type: Boolean,
           value: false,
-          observer: '_onHostLoading'
+          observer: '_onHostLoading',
         },
 
         /**
@@ -66,7 +66,7 @@ const MatryoshkaLoaderMixin = (superClass) => {
           type: Boolean,
           value: false,
         },
-      }
+      };
     }
 
     /**
@@ -74,8 +74,8 @@ const MatryoshkaLoaderMixin = (superClass) => {
      */
     ready() {
       super.ready();
-      this.addEventListener('matryoshka-loading', (e) => this._onMatryoshkaLoading(e));
-      this.addEventListener('matryoshka-loaded', (e) => this._onMatryoshkaLoaded(e));
+      this.addEventListener('matryoshka-loading', e => this._onMatryoshkaLoading(e));
+      this.addEventListener('matryoshka-loaded', e => this._onMatryoshkaLoaded(e));
     }
 
     /**
@@ -90,13 +90,13 @@ const MatryoshkaLoaderMixin = (superClass) => {
           return;
         }
 
-        let eventOptions = {bubbles: true, composed: true, detail: {srcElement: this}};
+        let eventOptions = { bubbles: true, composed: true, detail: { srcElement: this } };
         if (hostLoading) {
           this.dispatchEvent(new CustomEvent('matryoshka-loading', eventOptions));
         } else {
           this.dispatchEvent(new CustomEvent('matryoshka-loaded', eventOptions));
         }
-      })
+      });
     }
 
     /**
@@ -152,7 +152,7 @@ const MatryoshkaLoaderMixin = (superClass) => {
      */
     connectedCallback() {
       super.connectedCallback();
-      this._checkLoaded = this.checkLoaded.bind(this)
+      this._checkLoaded = this.checkLoaded.bind(this);
     }
 
     /**
@@ -161,10 +161,10 @@ const MatryoshkaLoaderMixin = (superClass) => {
      * @param {HTMLElement} elem Optional parameter with the event that triggers.
      */
     addRelatedElement(elem) {
-      if (typeof elem.loaded !== "boolean") {
+      if (typeof elem.loaded !== 'boolean') {
         console.warn(
-          "Element requesting to be watched for loading state should implement MatryoshkaLoaderMixin",
-          elem
+          'Element requesting to be watched for loading state should implement MatryoshkaLoaderMixin',
+          elem,
         );
       }
 
@@ -181,12 +181,12 @@ const MatryoshkaLoaderMixin = (superClass) => {
      * @param elem
      */
     removeRelatedElement(elem) {
-      elem.removeEventListener('matryoshka-loaded', this._checkLoaded)
+      elem.removeEventListener('matryoshka-loaded', this._checkLoaded);
 
       var elements = this.__relatedElements ? this.__relatedElements.slice(0) : [];
-      this.__relatedElements = elements.filter((relatedElem) => relatedElem !== elem)
+      this.__relatedElements = elements.filter(relatedElem => relatedElem !== elem);
 
-      this.checkLoaded()
+      this.checkLoaded();
     }
 
     /**
@@ -196,11 +196,11 @@ const MatryoshkaLoaderMixin = (superClass) => {
      * @private
      */
     _areRelatedElementsLoading(relatedElements) {
-      var loadingElements = relatedElements.filter((elem) => elem.loading);
+      var loadingElements = relatedElements.filter(elem => elem.loading);
 
-      return loadingElements.length > 0
+      return loadingElements.length > 0;
     }
   }
 
   return MatryoshkaLoader;
-}
+};
