@@ -5,7 +5,7 @@
     "Paul Hachmang <paul@h-o.nl>"
   ],
   "description": "\"Defines a loading flag for elements that automatically take into account the loading state of its child elements.\"",
-  "main": "matryoshka-loader-mixin.html",
+  "main": "index.html",
   "keywords": [
     "Russian",
     "Doll",
@@ -22,8 +22,5 @@
   ],
   "dependencies": {
     "polymer": "^2.0.2"
-  },
-  "devDependencies": {
-    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0"
   }
 }
